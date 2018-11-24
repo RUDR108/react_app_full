@@ -1,6 +1,8 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {fetchRentalById} from '../../actions/actions'
+import RentalDetailInfo from './rental-detail-info'
+import {RentalMap} from './RentalMap'
 
 export class RentalDetail extends React.Component{
 
@@ -12,10 +14,37 @@ export class RentalDetail extends React.Component{
    }
 
    render(){
-      //console.log(this.props)
-       return(
-         <div>This is {this.props.rental.id}</div>
-       );
+      const rental=this.props.rental;
+      if(rental._id){
+         return(
+            <section id='rentalDetails'>
+  <div className='upper-section'>
+    <div className='row'>
+      <div className='col-md-6'>
+        <img src={rental.image} alt=''></img>
+      </div>
+      <div className='col-md-6'>
+            <RentalMap location={`${rental.city}, ${rental.street}`}/>
+      </div>
+    </div>
+  </div>
+
+  <div className='details-section'>
+    <div className='row'>
+      <div className='col-md-8'>
+        <RentalDetailInfo rental={rental}/>
+      </div>
+      <div className='col-md-4'> BOOKING</div>
+    </div>
+  </div>
+</section>
+
+         )
+      }else{
+         return(
+            <h1>Loading...</h1>
+         )
+      }
    } 
 }
 
