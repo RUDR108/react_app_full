@@ -18,7 +18,6 @@ class RentalList extends React.Component{
 
     render(){
       return (
-        
         <div className='row'>
             {this.renderRentals()}
         </div>
