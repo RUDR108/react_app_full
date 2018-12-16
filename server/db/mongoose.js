@@ -9,5 +9,6 @@ mongoose.connect( config.DB_URI || 'mongodb://localhost:27017/rentals', { useNew
     },
     err => { console.log('can not connect')/** handle initial connection error */ }
   );
+mongoose.set('useCreateIndex',true);  
 
 module.exports= {mongoose};
