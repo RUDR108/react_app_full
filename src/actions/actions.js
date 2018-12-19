@@ -1,58 +1,10 @@
 import axios from 'axios';
+import authService from '../services/auth-service'
+import axiosService from '../services/axios-service'
 
-// const rentals=[{
-//     id: "1",
-//     title: "Central Apartment",
-//     city: "New York",
-//     street: "Times Sqaure",
-//     category: "apartment",
-//     image: "http://via.placeholder.com/350x250",
-//     bedrooms: 3,
-//     description: "Very nice apartment",
-//     dailyRate: 34,
-//     shared: false,
-//     createdAt: "24/12/2017"
-//   },
-//   {
-//     id: "2",
-//     title: "Central Apartment 2",
-//     city: "San Francisco",
-//     street: "Main street",
-//     category: "condo",
-//     image: "http://via.placeholder.com/350x250",
-//     bedrooms: 2,
-//     description: "Very nice apartment",
-//     dailyRate: 12,
-//     shared: true,
-//     createdAt: "24/12/2017"
-//   },
-//   {
-//     id: "3",
-//     title: "Central Apartment 3",
-//     city: "Bratislava",
-//     street: "Hlavna",
-//     category: "condo",
-//     image: "http://via.placeholder.com/350x250",
-//     bedrooms: 2,
-//     description: "Very nice apartment",
-//     dailyRate: 334,
-//     shared: true,
-//     createdAt: "24/12/2017"
-//   },
-//   {
-//     id: "4",
-//     title: "Central Apartment 4",
-//     city: "Berlin",
-//     street: "Haupt strasse",
-//     category: "house",
-//     image: "http://via.placeholder.com/350x250",
-//     bedrooms: 9,
-//     description: "Very nice apartment",
-//     dailyRate: 33,
-//     shared: true,
-//     createdAt: "24/12/2017"
-// }]
+const axiosInstance = axiosService.getInstance();
 
+//Rentals Action ----------------------------------------------
 export const fetchRentalSuccess=(rentals)=>{
     
 return {
@@ -95,6 +47,57 @@ const fetchRentalByIdSuccess=(rental)=>{
     }
 }
 
+//Auth Action ----------------------------------------------
+ export const register = (userData) => {
+    return axios.post('/api/v1/users/register',{...userData}).then((res)=>{
+        return res.data;
+    },
+    (err)=>{
+        return Promise.reject(err.response.data.error)
+    })
+ }
 
+export const logInSuccess = () =>{
+    return {
+        type:'LOGIN_SUCCESS',
+       
+    }
+}
 
+export const logInFailure = (errors) =>{
+    return {
+        type:'LOGIN_FAILURE',
+        errors
+    }
+}
 
+export const checkAuthState = () =>{
+return dispatch => {
+    if(authService.isAuthenticate()){
+        dispatch(logInSuccess())
+    }
+}
+}
+
+export const logIn = (userData)=>{
+    return dispatch =>{
+        return axios.post('/api/v1/users/auth',{...userData})
+        .then((res)=>{
+            return res.data
+        }).then((token)=>{
+            authService.saveToken(token)
+            dispatch(logInSuccess())
+        }).catch(({response})=>{
+        
+            dispatch(logInFailure(response.data.error))
+        })
+    }
+}
+
+export const logout = () =>{
+    authService.invalidateUser();
+    return{
+        type:'LOGOUT'
+
+    } 
+}

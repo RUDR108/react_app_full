@@ -60,8 +60,8 @@ this.users=[{
         })
         user.save()
     }
-    seedDB(){
-        this.cleanDB()
+    async seedDB(){
+        await this.cleanDB()
         this.pushDatatoDB()
     }
 
