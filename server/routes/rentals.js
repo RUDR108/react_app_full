@@ -1,6 +1,14 @@
 const express =require('express')
 const router = express.Router();
 const Rental=require('../models/rentals');
+const User = require('../models/users')
+const { normalizeErrors } = require('../helpers/mongoose');
+
+const UserCtrl = require('../controllers/users');
+
+router.get('/secret', UserCtrl.authMiddleware, function(req, res) {
+  res.json({"secret": true});
+});
 
 router.get('',(req,res)=>{
     Rental.find({},(err,result)=>{
