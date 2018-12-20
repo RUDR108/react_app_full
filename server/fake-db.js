@@ -41,6 +41,10 @@ this.users=[{
     username:'Test User',
     email:"test@gmail.com",
     password:'testtest'
+},{
+    username:'Test User 1',
+    email:"test1@gmail.com",
+    password:'testtest'
 }]
     }
 
@@ -51,7 +55,7 @@ this.users=[{
 
     pushDatatoDB(){
         const user = new User(this.users[0])
-
+        const user2 = new User(this.users[1])
         this.rentals.forEach((rental)=>{
             const newRental = new Rental(rental)
             newRental.user=user;
@@ -59,6 +63,7 @@ this.users=[{
             newRental.save()
         })
         user.save()
+        user2.save()
     }
     async seedDB(){
         await this.cleanDB()
