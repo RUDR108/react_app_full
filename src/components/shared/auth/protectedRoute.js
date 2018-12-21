@@ -5,7 +5,6 @@ import authService from 'services/auth-service';
 export function ProtectedRoute(props) {
 
   const {component: Component, ...rest} = props;
-
   return (
     <Route {...rest} render={(props) => authService.isAuthenticate()
                                         ? <Component {...props} {...rest}/>

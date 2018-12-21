@@ -18,12 +18,13 @@ return {
 
 export const fetchRentals=()=>{
     return (dispatch)=>{
-       axios.get('http://localhost:3000/api/v1/rentals').then((res)=>{
+       axiosInstance.get('/rentals').then(
+           (res)=>{
        //console.log(rentals.data)    
        return res.data;
-       }).then((rentals)=>{
+       }).then((rentals)=>
             dispatch(fetchRentalSuccess(rentals))
-       }).catch((e)=>{
+       ).catch((e)=>{
     
        })
     }
@@ -49,7 +50,7 @@ const fetchRentalByIdSuccess=(rental)=>{
 
 //Auth Action ----------------------------------------------
  export const register = (userData) => {
-    return axios.post('/api/v1/users/register',{...userData}).then((res)=>{
+    return axios.post('/api/v1/users/register',userData).then((res)=>{
         return res.data;
     },
     (err)=>{
@@ -81,14 +82,13 @@ return dispatch => {
 
 export const logIn = (userData)=>{
     return dispatch =>{
-        return axios.post('/api/v1/users/auth',{...userData})
+        return axios.post('/api/v1/users/auth',userData)
         .then((res)=>{
             return res.data
         }).then((token)=>{
             authService.saveToken(token)
             dispatch(logInSuccess())
         }).catch(({response})=>{
-        
             dispatch(logInFailure(response.data.error))
         })
     }
@@ -100,4 +100,13 @@ export const logout = () =>{
         type:'LOGOUT'
 
     } 
+}
+
+
+//Booking Action---------------------------------
+
+export const createBooking = (booking) =>{
+    return axiosInstance.post('/bookings',booking)
+    .then(res => res.data)
+    .catch(({response})=>Promise.reject(response.data.error))
 }
