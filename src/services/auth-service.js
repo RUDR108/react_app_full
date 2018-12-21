@@ -1,7 +1,7 @@
 import * as jwt from 'jsonwebtoken'; 
 import * as moment from 'moment';
 
-class authService{
+class AuthService{
 
     getToken(){
         localStorage.getItem('auth_token')
@@ -30,6 +30,7 @@ class authService{
     }
 
     isAuthenticate(){
+        
         const token = this.getToken();
   
         return (token && this.isValid(token)) ? true : false
@@ -39,4 +40,4 @@ class authService{
 }
 
 
-export default new authService();
+export default new AuthService();

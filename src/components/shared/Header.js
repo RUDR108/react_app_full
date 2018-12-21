@@ -20,6 +20,7 @@ renderAuthButton(){
 
   if(isAuth){
     return <p className='nav-item nav-link clickable' onClick={this.handleLogout()}>Logout</p>
+ 
   }
 
   return (
@@ -29,6 +30,7 @@ renderAuthButton(){
     </React.Fragment>)
 }
   render(){
+   // const {isAuth} = this.props.auth
     return (
       <nav className='navbar navbar-dark navbar-expand-lg'>
       <div className='container'>
