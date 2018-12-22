@@ -13,20 +13,31 @@ return {
 }    
 }
 
+const fetchRentalsInit = () => {
+    return{
+        type:'FETCH_RENTALS_INIT',
+    }
+}
+
+const fetchRentalsFail = (errors) => {
+    return{
+        type:'FETCH_RENTALS_FAIL',
+        errors
+    }
+}
 
 
 
-export const fetchRentals=()=>{
+export const fetchRentals = (city) => {
+
+    const url = city ? `/rentals?city=${city}` : '/rentals' 
     return (dispatch)=>{
-       axiosInstance.get('/rentals').then(
+        dispatch(fetchRentalsInit())
+       axiosInstance.get(url).then(
            (res)=>{
-       //console.log(rentals.data)    
-       return res.data;
-       }).then((rentals)=>
-            dispatch(fetchRentalSuccess(rentals))
-       ).catch((e)=>{
-    
-       })
+         return res.data;
+       }).then((rentals)=>dispatch(fetchRentalSuccess(rentals))
+    ).catch(({response})=>dispatch(fetchRentalsFail(response.data.errors)))
     }
  }
 
@@ -59,9 +70,10 @@ const fetchRentalByIdSuccess=(rental)=>{
  }
 
 export const logInSuccess = () =>{
+    const username = authService.getUsername()
     return {
         type:'LOGIN_SUCCESS',
-       
+       username
     }
 }
 
@@ -108,5 +120,19 @@ export const logout = () =>{
 export const createBooking = (booking) =>{
     return axiosInstance.post('/bookings',booking)
     .then(res => res.data)
-    .catch(({response})=>Promise.reject(response.data.error))
+    .catch((errors)=> 
+    {debugger
+        return Promise.reject(errors.response.data.errors)})
 }
+
+
+//Create ACtion---------------------------------------------
+
+export const createRental = (rental) => {
+    return axiosInstance.post('/rentals',rental).then((res)=>{
+        return res.data;
+    },
+    (err)=>{
+        return Promise.reject(err.response.data.errors)
+    })
+ }

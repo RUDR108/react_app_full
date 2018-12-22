@@ -5,7 +5,7 @@ import * as actions from 'actions/actions';
 
 class RentalListing extends React.Component{
     
-    componentDidMount(){
+    componentWillMount(){
      this.props.dispatch(actions.fetchRentals())   
     }
 
@@ -22,7 +22,7 @@ class RentalListing extends React.Component{
 
 const mapStateToProps=(state)=>{
 return{
-    rentals:state.rentals
+    rentals:state.rentals.data
 }
 }
 

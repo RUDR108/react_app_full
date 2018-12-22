@@ -33,7 +33,7 @@ Rental.findById(rental._id)
                     return res.status(422).send({errors:normalizeErrors(err.errors)})
                 }
                 foundRental.save()
-                User.update({_id:user.id},{$push:{bookings:booking}})
+                User.update({_id:user.id},{$push:{bookings:booking}},function(){})
                
                 return  res.json({startAt:booking.startAt,endAt:booking.endAt})
             });
@@ -46,6 +46,8 @@ Rental.findById(rental._id)
 
 function isValidBooking(proposedBooking,rental){
     let isValid = true;
+
+    
 
     if(rental.bookings && rental.bookings.length > 0){
         rental.booking.every(function(booking){
@@ -61,4 +63,5 @@ function isValidBooking(proposedBooking,rental){
             }
         })
     }
+    return isValid;
 } 

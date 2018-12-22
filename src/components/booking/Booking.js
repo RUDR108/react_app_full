@@ -12,10 +12,10 @@ export class Booking extends React.Component {
         this.bookedOutDates = []
         this.dateRef = React.createRef()
         this.checkInvalidDates=this.checkInvalidDates.bind(this)
-        this.getBookedOutDates=this.getBookedOutDates.bind(this)
+        //this.getBookedOutDates=this.getBookedOutDates.bind(this)
         this.handleApply=this.handleApply.bind(this)
         this.cancelConfirmation  = this.cancelConfirmation.bind(this)
-        this.confirmProposedData = this.confirmProposedData.bind(this)
+        //this.confirmProposedData = this.confirmProposedData.bind(this)
         this.reserveRental = this.reserveRental.bind(this)
         this.state={
             proposedBooking:{
@@ -50,9 +50,9 @@ export class Booking extends React.Component {
     }
 
     handleApply(event,picker){
-        const startAt = picker.startAt.format('Y/MM/DD')
-        const endAt = picker.endAt.format('Y/MM/DD')
-        this.dateRef.curren.value = startAt + ' to ' + endAt
+        const startAt = picker.startDate.format('Y/MM/DD')
+        const endAt = picker.endDate.format('Y/MM/DD')
+        this.dateRef.current.value = startAt + ' to ' + endAt
 
         this.setState(()=>{
             return{
@@ -93,18 +93,19 @@ export class Booking extends React.Component {
     }
 
     confirmProposedData(){
-         const{startAt,endAt} = this.state.proposedBooking
-         const days = getRangeOfDates(startAt,endAt,'Y/MM/DD').length - 1;
+         const{startAt,endAt,guests} = this.state.proposedBooking
+         const days = (getRangeOfDates(startAt,endAt,'Y/MM/DD').length<=1)?1:(getRangeOfDates(startAt,endAt,'Y/MM/DD').length-1);
+         
          const {rental} =this.props;
-
-        this.setState({
+        
+         this.setState({
           modal:{
               open:true
           },
           proposedBooking:{
             ...this.state.proposedBooking,
               days,rental,
-              totalPrice:days * rental.dailyRate
+              totalPrice:days * rental.dailyRate *guests
           }
         })
     }
@@ -118,6 +119,7 @@ export class Booking extends React.Component {
                 toast.success('Booking has been successfully created.')
             },
            (errors)=>{
+               
             this.setState({errors})
            }
 
@@ -127,7 +129,6 @@ export class Booking extends React.Component {
   render() {
     const {rental} = this.props
     const {startAt,endAt,guests} = this.state.proposedBooking
-
     return (
       <div className='booking'>
       <ToastContainer />

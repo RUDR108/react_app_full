@@ -3,8 +3,12 @@ import * as moment from 'moment';
 
 class AuthService{
 
+    getUsername(){
+        return this.decode(this.getToken()).username
+    }
+
     getToken(){
-        localStorage.getItem('auth_token')
+        return localStorage.getItem('auth_token')
     }
 
     decode(token){

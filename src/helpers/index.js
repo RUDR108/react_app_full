@@ -1,4 +1,5 @@
 import * as moment from 'moment'
+import titleize from 'titleize' 
 
 export const rentalTypes = (isShared) =>{
     if(isShared){
@@ -8,11 +9,7 @@ export const rentalTypes = (isShared) =>{
     }
 }
 
-export const toUpperCase=(string)=>{
-if(string){
-    return string.toUpperCase()
-}
-}
+export const toUpperCase = value => value?titleize(value):''
 
 export const getRangeOfDates = (startAt,endAt,dateFormat='Y/MM/DD')=>{
     const tempDates=[]

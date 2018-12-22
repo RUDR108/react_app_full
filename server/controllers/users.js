@@ -71,20 +71,20 @@ exports.register=(req,res)=>{
 
    exports.authMiddleware = function(req, res, next) {
     const token = req.headers.authorization;
-  
+
     if (token) {
       const user = parseToken(token);
-  
-      User.findById(user.userId, function(err, user) {
+      
+      User.findById(user.userId, function(err, user){
         if (err) {
-          return res.status(422).send({errors: normalizeErrors(err.errors)});
+          return res.status(422).send({errors:normalizeErrors(err.errors) });
         }
-  
-        if (user) {
-          res.locals.user = user;
+
+        if(user){
+              res.locals.user = user;
           next();
         } else {
-          return notAuthorized(res);
+          return res.status(401).send({errors: [{title: 'Not authorized!', detail: 'You need to login to get access!'}]});
         }
       })
     } else {
@@ -98,4 +98,4 @@ exports.register=(req,res)=>{
   
   function notAuthorized(res) {
     return res.status(401).send({errors: [{title: 'Not authorized!', detail: 'You need to login to get access!'}]});
-  }
+  }        

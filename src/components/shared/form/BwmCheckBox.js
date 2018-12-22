@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const BwmInput = ({
+export const BwmCheckBox = ({
     input,
     label,
     type,
@@ -9,16 +9,10 @@ export const BwmInput = ({
   meta: { touched, error, warning }
   }) => (
      <div className="form-group">
+     <div className='input-group'>
       <label>{label}</label>
-      <div className="input-group">
-      {
-        symbol &&
-        <div className = 'input-group-prepend'>
-        <div className='input-group-text'>{symbol}</div>
-        </div>
-      }
-        <input {...input} type={type} className={className}/>
-        </div>
+        <input {...input} type={type}  className={className} />
+    </div>
         {touched &&
           ((error && <div className="alert alert-danger">{error}</div>))}
         </div>
