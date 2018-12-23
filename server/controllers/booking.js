@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken')
 const Booking = require('../models/bookings')
 const Rental = require('../models/rentals')
 const {normalizeErrors} = require('../helpers/mongoose') 
-const config = require('../config/dev')
+const config = require('../config')
 const moment = require('moment')
 const User = require('../models/users')
 
