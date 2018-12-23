@@ -19,7 +19,7 @@ Rental.findById(rental._id)
             return res.status(422).send({errors:normalizeErrors(err.errors)})
         }
 
-        if(foundRental.user._id===user._id){
+        if(foundRental.user.id===user.id){
             return res.status(422).send({errors:[{title:'Invalid User!',detail:'Cannot create booking on your own rental.'}]})
         }
 
@@ -33,7 +33,7 @@ Rental.findById(rental._id)
                     return res.status(422).send({errors:normalizeErrors(err.errors)})
                 }
                 foundRental.save()
-                User.update({_id:user.id},{$push:{bookings:booking}},function(){})
+                User.updateOne({_id:user.id},{$push:{bookings:booking}},function(){})
                
                 return  res.json({startAt:booking.startAt,endAt:booking.endAt})
             });
@@ -44,13 +44,27 @@ Rental.findById(rental._id)
     })
 }
 
+exports.getUserBookings = function(req,res){
+    const user = res.locals.user
+        
+    Booking.where({user})
+    .populate('rental')
+    .exec(function(err,foundBookings){
+        if(err){
+            return res.status(422).send({errors:normalizeErrors(err.errors)})
+        }
+
+        return res.json(foundBookings)
+    })
+}
+
 function isValidBooking(proposedBooking,rental){
     let isValid = true;
 
     
 
     if(rental.bookings && rental.bookings.length > 0){
-        rental.booking.every(function(booking){
+        rental.bookings.every(function(booking){
             const proposedStart = moment(proposedBooking.startAt)
             const proposedEnd = moment(proposedBooking.endAt)
             const actualStart = moment(booking.startAt)
