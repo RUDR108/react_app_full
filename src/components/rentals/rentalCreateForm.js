@@ -19,7 +19,7 @@ const RentalCreateForm = props => {
             placeholder="Title"
             className = "form-control"
             component={BwmInput}
-            
+            validate={[required,minLength4]}
         />
        
        <Field
@@ -29,7 +29,7 @@ const RentalCreateForm = props => {
             placeholder="City"
             className = "form-control"
             component={BwmInput}
-            
+            validate={[required]}
         />
             <Field
             name="street"
@@ -38,7 +38,7 @@ const RentalCreateForm = props => {
             placeholder="Street"
             className = "form-control"
             component={BwmInput}
-            
+            validate={[required]}
         />
             <Field
             name="category"
@@ -53,6 +53,7 @@ const RentalCreateForm = props => {
         name="image"
         label="image"
         component={BwmFileUpload}
+        
         />
             <Field
             name="bedrooms"
@@ -61,7 +62,7 @@ const RentalCreateForm = props => {
             placeholder="Bedrooms"
             className = "form-control"
             component={BwmInput}
-           
+            validate={[required]}
         />
             <Field
             name="dailyRate"
@@ -71,7 +72,7 @@ const RentalCreateForm = props => {
             className = "form-control"
             symbol='$'
             component={BwmInput}
-            
+            validate={[required]}
         />
         <Field
         name="shared"
@@ -79,6 +80,7 @@ const RentalCreateForm = props => {
         label="Shared"
         className = "form-control"
         component={BwmCheckBox}
+        
     />
         <Field
         name="description"
@@ -88,12 +90,14 @@ const RentalCreateForm = props => {
         placeholder="Write here something ....."
         className = "form-control"
         component={BwmTextArea}
-    />
         
-        <button className="btn btn-bwm btn-form" type="submit" disabled={!valid || pristine || submitting}>
+    />
+        <BwmResError errors={errors}/>
+       
+    <button className="btn btn-bwm btn-form" type="submit" disabled={!valid || pristine || submitting}>
           Create Rental
         </button>
-        <BwmResError errors={errors}/> 
+         
     </form>
   )
 }
