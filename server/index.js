@@ -5,6 +5,8 @@ const {mongoose}=require('./db/mongoose');
 const rentalRoutes = require('./routes/rentals');
 const userRoutes = require('./routes/users')
 const bookingRoutes = require('./routes/bookings')
+const config = require('./config');
+const path = require('path');
 
 const app=express();
 const PORT=process.env.PORT ||3001;
@@ -15,7 +17,17 @@ app.use('/api/v1/rentals',rentalRoutes);
 app.use('/api/v1/users',userRoutes)
 app.use('/api/v1/bookings',bookingRoutes)
 
- app.listen(PORT,()=>{
+if(process.env.NODE_ENV === 'production'){
+    const appPath = path.join(__dirname,'..','build')
+
+    app.use(express.static(appPath))
+    
+    app.get('*',function(req,res){
+        res.sendFile(path.resolve(appPath,'index.html'));
+    })
+}
+
+app.listen(PORT,()=>{
     console.log('server is running.')
 })
 
