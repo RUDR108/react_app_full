@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken')
 const User = require('../models/users')
 const {normalizeErrors} = require('../helpers/mongoose') 
 const config = require('../config')
-
+const emailExistence = require('email-existence')
 
 exports.auth =  function(req, res) {
     const { email, password } = req.body;
@@ -26,7 +26,8 @@ exports.auth =  function(req, res) {
           username: user.username
         }, config.SECRET, { expiresIn: '1h'});
   
-        return res.json(token);
+    
+        return res.json({email,token});
       } else {
         return res.status(422).send({errors: [{title: 'Wrong Data!', detail: 'Wrong email or password'}]});
       }
@@ -51,6 +52,14 @@ exports.register=(req,res)=>{
        if(result){
            return res.status(401).send({error:[{title:'Email exists',detail:'Email alredy exists.'}]})
        }
+    
+      emailExistence.check(`${email}`, function(error, response){
+        if (error){
+          return res.status(401).send({error:[{title:'Email is not valid',detail:'Email is not valid.'}]})
+        } else if(response){
+          console.log(response)
+        }
+    });
     
        const user = new User({
            username,

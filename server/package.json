@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "email-existence": "^0.1.6",
     "jsonwebtoken": "^8.4.0",
     "mongoose": "^5.4.0"
   }

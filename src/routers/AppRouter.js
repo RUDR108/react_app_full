@@ -1,33 +1,24 @@
 import React from 'react';
 import {BrowserRouter,Route,Redirect,Switch} from 'react-router-dom'
-import Header from '../components/shared/Header'
-import RentalListing from '../components/rentals/RentalListing'
-import RentalDetail from '../components/rentals/RentalDetail'
 import Login from '../components/login/login'
 import Register from '../components/register/register' 
-import {ProtectedRoute} from '../components/shared/auth/protectedRoute'
 import {LoggedInRoute} from '../components/shared/auth/loggedInRoute'
-import RentalSearchListing from '../components/rentals/RentalSearchListing'
-import RentalCreate from '../components/rentals/rentalCreate'
-import RentalManage from '../components/rentals/rentalManage'
-import BookingManage from '../components/booking/bookingManage'
+import HomePage from '../components/homepage'
+import Header from '../components/shared/Header'
+import {ToastContainer,toast} from 'react-toastify'
 
 const AppRouter=(props)=>{
  return(
         <BrowserRouter>
         <div className="App">
-          <Header    logout={props.logout}  />
+        <Header    logout={props.logout}  />
           <div className='container'>
+          <ToastContainer />
           <Switch>
-            <Route exact path='/' render={()=><Redirect to='/rentals'/>}/>
-            <Route path="/rentals" component={RentalListing} exact />
-            <ProtectedRoute path="/rentals/new" component={RentalCreate} exact />
-            <ProtectedRoute path="/rentals/manage" component={RentalManage} exact />
-            <ProtectedRoute path="/bookings/manage" component={BookingManage} exact />
-            <Route path="/rentals/:id?" component={RentalDetail} exact />
+            <Route exact path='/' render={()=><Redirect to='/homepage'/>}/>
             <LoggedInRoute path="/register" component={Register} exact/>
             <Route path="/login" component={Login} exact/>
-            <Route path="/rentals/:city/homes" component={RentalSearchListing} exact/>
+            <Route exact path='/homepage' component={HomePage} />
           </Switch> 
           </div>
         </div>
