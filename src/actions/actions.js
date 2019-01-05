@@ -4,6 +4,7 @@ import axiosService from '../services/axios-service'
 
 const axiosInstance = axiosService.getInstance();
 
+<<<<<<< HEAD
 //verify Actions-------------------------------------------------
 export const verifyRentalOwner = (rentalId) => {
     return axiosInstance.get(`rentals/${rentalId}/verify-user`);
@@ -83,6 +84,8 @@ export const deleteRental = (rentalId) => {
         err=>Promise.reject(err.response.data.errors))
     }
     
+=======
+>>>>>>> 0dfd8a8dd3b80a523033a08e8032250a6fb1e871
 
 //Auth Action ----------------------------------------------
  export const register = (userData) => {
@@ -90,15 +93,16 @@ export const deleteRental = (rentalId) => {
         return res.data;
     },
     (err)=>{
-        return Promise.reject(err.response.data.errors)
+        return Promise.reject(err.response.data.error)
     })
  }
 
-export const logInSuccess = () =>{
+export const logInSuccess = (email) =>{
     const username = authService.getUsername()
     return {
         type:'LOGIN_SUCCESS',
-       username
+       username,
+       email
     }
 }
 
@@ -122,9 +126,9 @@ export const logIn = (userData)=>{
         return axios.post('/api/v1/users/auth',userData)
         .then((res)=>{
             return res.data
-        }).then((token)=>{
+        }).then(({email,token})=>{
             authService.saveToken(token)
-            dispatch(logInSuccess())
+            dispatch(logInSuccess(email))
         }).catch(({response})=>{
             dispatch(logInFailure(response.data.errors))
         })
@@ -140,6 +144,7 @@ export const logout = () =>{
 }
 
 
+<<<<<<< HEAD
 //Booking Action---------------------------------
 
 export const createBooking = (booking) =>{
@@ -246,3 +251,5 @@ export const uploadImage = (image) => {
     })
     .catch(({response})=> Promise.reject(response.data.errors[0]))
 }
+=======
+>>>>>>> 0dfd8a8dd3b80a523033a08e8032250a6fb1e871

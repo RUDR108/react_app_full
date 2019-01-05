@@ -1,7 +1,7 @@
 import React from 'react'
 import {Link,withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
-import RentalSearchInput from 'components/rentals/RentalSearchInput' 
+
 
 class Header extends React.Component{
 
@@ -13,7 +13,7 @@ constructor(){
 
 handleLogout(){
 this.props.logout()
-this.props.history.push('/rentals')
+this.props.history.push('/login')
 }
 
 renderAuthButton(isAuth){
@@ -49,26 +49,12 @@ if(isAuth){
 
   render(){
     const {username,isAuth} = this.props.auth
+   
     return (
       <nav className='navbar navbar-dark navbar-expand-lg'>
       <div className='container'>
-        <Link className='navbar-brand' to='/rentals'>BookWithMe
-        <img src={process.env.PUBLIC_URL+'/img/react-logo.svg'} alt=""/>
-        </Link>
-        <RentalSearchInput />
-        <button className='navbar-toggler' type='button' data-toggle='collapse' data-target='#navbarNavAltMarkup' aria-controls='navbarNavAltMarkup' aria-expanded='false' aria-label='Toggle navigation'>
-          <span className='navbar-toggler-icon'></span>
-        </button>
-        <div className='collapse navbar-collapse' id='navbarNavAltMarkup'>
-          <div className='navbar-nav ml-auto'>
-        {isAuth &&
-          <a className='nav-item nav-link' >{username}</a>
-        }
-        {this.renderOwnerSection(isAuth)}
-          {this.renderAuthButton(isAuth)}
+         {this.renderAuthButton(isAuth)}
             </div>
-        </div>
-      </div>
   </nav>  
         )
   }

@@ -10,6 +10,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+<<<<<<< HEAD
+=======
+    "email-existence": "^0.1.6",
+>>>>>>> 0dfd8a8dd3b80a523033a08e8032250a6fb1e871
     "jsonwebtoken": "^8.4.0",
     "mongoose": "^5.4.0"
   }
