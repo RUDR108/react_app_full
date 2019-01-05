@@ -4,6 +4,25 @@ import axiosService from '../services/axios-service'
 
 const axiosInstance = axiosService.getInstance();
 
+//verify Actions-------------------------------------------------
+export const verifyRentalOwner = (rentalId) => {
+    return axiosInstance.get(`rentals/${rentalId}/verify-user`);
+}
+
+//Map Actions---------------------------------------------------
+
+export const reloadMap = () => {
+return{
+    type:'RELOAD_MAP'
+}
+}
+
+export const reloadMapFinish = () => {
+return{
+    type:'RELOAD_MAP_FINISH'
+}
+}
+
 //Rentals Action ----------------------------------------------
 export const fetchRentalsSuccess=(rentals)=>{
     
@@ -181,5 +200,49 @@ export const getUserRentals = () =>{
     }
 
 
+//update Rental Action------------------------------------------------
+
+export const resetRentalErrors = () =>{
+    return{
+        type:'RESET_RENTAL_ERRORS'
+    }
+}
+
+export const updateRentalSuccess = (updatedRental) =>{
+    return {
+        type:'UPDATE_RENTAL_SUCCESS',
+        rental:updatedRental
+    }
+}
+
+export const updateRentalFail = (errors) =>{
+    return {
+        type:'UPDATE_RENTAL_FAIL',
+        errors
+    }
+} 
+
+export const updateRental = (rentalData,rentalId)=>{
+    return dispatch =>{
+        return axiosInstance.patch(`/rentals/${rentalId}`,rentalData)
+        .then(res=>res.data)
+        .then(rental=>{
+            dispatch(updateRentalSuccess(rental))
+            if(rentalData.city || rentalData.street){
+                dispatch(reloadMap())}})
+            .catch(({response})=>dispatch(updateRentalFail(response.data.errors)))
+    }
+}
 
 
+//Image Action
+export const uploadImage = (image) => {
+    const formData = new FormData()
+    formData.append('image',image)
+
+    return axiosInstance.post('/image-upload',formData)
+    .then(json=>{
+        return json.data.imageUrl
+    })
+    .catch(({response})=> Promise.reject(response.data.errors[0]))
+}
