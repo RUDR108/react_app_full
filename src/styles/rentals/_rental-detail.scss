@@ -34,6 +34,10 @@
           }
         }
   
+        &-label {
+          margin-right:10px;
+        }
+
         &-title {
           margin-bottom: 5px;
           font-size: 32px;
@@ -45,12 +49,22 @@
           font-weight: 300;
           margin-bottom: 20px;
         }
+        
+        &-street {
+          font-size: 14px;
+          font-weight: 300;
+          margin-bottom: 20px;
+        }
   
         &-room-info {
           margin-bottom: 20px;
           font-weight: 300;
           font-size: 16px;
   
+          .rental-bedroom {
+            margin-right:0;
+          }
+
           span {
             margin-right: 10px;
           }

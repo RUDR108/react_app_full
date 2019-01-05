@@ -11,6 +11,7 @@ import RentalSearchListing from '../components/rentals/RentalSearchListing'
 import RentalCreate from '../components/rentals/rentalCreate'
 import RentalManage from '../components/rentals/rentalManage'
 import BookingManage from '../components/booking/bookingManage'
+import {ToastContainer,toast} from 'react-toastify'
 
 const AppRouter=(props)=>{
  return(
@@ -18,6 +19,7 @@ const AppRouter=(props)=>{
         <div className="App">
           <Header    logout={props.logout}  />
           <div className='container'>
+          <ToastContainer />
           <Switch>
             <Route exact path='/' render={()=><Redirect to='/rentals'/>}/>
             <Route path="/rentals" component={RentalListing} exact />

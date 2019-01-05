@@ -6,7 +6,8 @@ const INITIAL_STATE={
         errors:[]
     },
     rental:{
-        data:{}
+        data:{},
+        errors:[]
     }
 }
 
@@ -24,9 +25,17 @@ switch(action.type){
 
 export const selectedRentalReducer=(state=INITIAL_STATE.rental,action)=>{
   switch(action.type){
+      case 'FETCH_RENTAL_BY_ID_INIT':
+      return {...state,data:{}}
       case 'FETCH_RENTAL_BY_ID_SUCCESS':
-      return {...state,...action.rental}
-             default:return state
+      return Object.assign({},state,{data:action.rental})
+      case 'UPDATE_RENTAL_SUCCESS':
+      return {...state,data:action.rental}
+      case 'UPDATE_RENTAL_FAIL':
+      return {...state,errors:action.errors}
+      case 'RESET_RENTAL_ERRORS':
+      return {...state,errors:[]}
+      default:return state
   }
   }
 
